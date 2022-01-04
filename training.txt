@@ -1,0 +1,104 @@
+py -3 -version  # windows
+python3 --version # mac
+
+py -3 -m venv venv
+venv\Scripts\activate.bat
+
+python3 -m venv venv # mac
+source venv/bin/activate #mac
+
+(install visual studio build tools 2019 to fix errors by: pip3 install fastapi[all] )
+
+pip freeze
+
+uvicorn main:app --reload
+
+(download and install postman)
+
+Creat:   POST | /posts |  @app.post("/posts")
+Read:    GET  | /posts/:id  | @app.get("/posts/{id}")
+         GET  | /posts      | @app.get("/posts")
+Update: PUT/PATCH  |  /posts/:id  | @app.put("/posts/{id}")
+Delete:  DELETE    |  /posts/:id  | @app.delete("/posts/{id})
+
+http://127.0.0.1/docs
+http://127.0.0.1/redoc
+
+create a directory FASTAPI/app
+create a new empty file __init__.py under app directory telling that app and all its modules is a package
+move main.py to app directory
+uvicorn app.main --reload
+
+install postgreSQL
+- select PostgreSQL Server, pgAdmin, Command line tools
+
+delete from products where id = 11 returning *;
+update products set name = "flour tortilla", price = 40 where id=10;
+update products set is_sale = true  where id=10 returning *;
+update products set is_sale = true  where price > 100 returning *;
+
+pip install psycopg2
+pip install sqlalchemy
+
+#password hashing
+pip install "passlib[bcrypt]"
+
+#delete from users where id = 7;
+#C:\Users\jchang\Documents\FastApi\app\main.py
+#http://127.0.0.1:8000/docs
+#http://127.0.0.1:8000/redoc
+#uvicorn app.main:app --reload
+
+# jwt.io can be used to decode a jwt token
+# a post_id can be voted by user_id once
+# composite keys: spans multiple columns {post_id, user_id} -> ensure that one post can be voted by the sanme user once
+# select * from posts left join users on posts.owner_id = users.id;
+# select posts.*, email from posts left join users on posts.owner_id = users.id;
+# select users.id, COUNT(*) from posts left join users on posts.owner_id = users.id group by users.id
+# select users.id, COUNT(posts.id) as user_post_count from posts right join users on posts.owner_id = users.id group by users.id
+# select posts.*, COUNT(votes.post_id) as votes from posts left join votes on posts.id = votes.post_id group by posts.id;
+# select posts.*, COUNT(votes.post_id) as votes from posts left join votes on posts.id = votes.post_id where posts.id=1 group by posts.id;
+
+pip install alembic
+alembic init --help
+alembic init alembic
+alembic --help
+alembic revision --help
+alembic revision -m "create posts table"
+alembic current
+alembic upgrade --help
+alembic head
+alembic upgrade head
+alembic downgrade -1 #or -2
+alembic history
+alembic upgrade +1 # or +2
+alembic upgrade head
+alembic revision --autogenerate -m "auto-vote"  
+
+
+
+{
+        "Post": {
+            "title": "top cafe in San Juan",
+            "content": "check out these awesome beaches",
+            "create_at": "2022-01-02T20:39:23.027538-08:00",
+            "id": 10,
+            "published": true,
+            "owner_id": 6
+        },
+        "votes": 1
+    },
+
+    {
+        "title": "post1",
+        "content": "random content",
+        "published": true,
+        "id": 1,
+        "create_at": "2022-01-02T13:03:23.214106-08:00",
+        "owner_id": 6,
+        "owner": {
+            "id": 6,
+            "email": "benjk@abc.com",
+            "created_at": "2022-01-01T10:55:18.077899-08:00"
+        }
+    },
